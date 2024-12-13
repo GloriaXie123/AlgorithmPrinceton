@@ -3,3 +3,4 @@
 */*.jar
 */*.class
 */*.zip
+*/out
