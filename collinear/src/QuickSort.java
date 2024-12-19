@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.StdRandom;
+
 import java.util.function.ObjIntConsumer;
 Public class QuickSort<T> implements Comparable<T>{
 
@@ -7,35 +9,40 @@ Public class QuickSort<T> implements Comparable<T>{
 
     public QuickSort<T>(Object[] objects){
         this.objects = objects;
-        shuffle(objects);
+        StdRandom.shuffle(objects);
     }
 
-    public void partition(){
-        for(int pivot = objects.length -1; pivot > = 0; pivot--){
-            low = 0;
-            high = objects.length -1;
-            sort(objects,low, high,pivot);
-        }
-    }
-    //Sort out array
-    public void sort(Object[] objects, int i, int j, int pivot){
-        while (i < j) {
-            if (objects[i] > objects[pivot]) {
-                swap(i, j);
-                i++;
-            } else if (objects[i] <= objects[pivot]) {
-                i++
-            } else if (objects[j] < objects[pivot]) {
-                swap(i, j);
+    //The partition method is kind of wrong, because the partition means something.
+    public void partition(Object[] objects, int low, int high){
+        int i, j;
+        i = low;
+        j = high;
+        Object pivot = objects[high -1];
+
+        while(i <= j){
+            if (objects[i] > objects[pivot] && j > low) {
+                swap(objects[i], objects[j]);
                 j--;
-            } else (objects[j] >= objects[pivot]) {
+            } else if (objects[i] <= objects[pivot] && i < high) {
+                i++
+            } else if (objects[j] < objects[pivot] && i < high) {
+                swap(objects[i], objects[j]);
+                i++;
+            } else (objects[j] >= objects[pivot] && j > low) {
                 j--;
             }
         }
-        if (objects[j] > objects[pivot]) {
-            swap(j, pivot);
-        } else if (objects[i] < objects[pivot]) {
-            swap(i++, pivot);
+
+        if(i >= j) {
+            swap(objects[i], pivot);
+        }
+
+        if(i < high){
+            partition(objects,i,high);
+        }
+        if(j > low){
+            partition(objects,low,j);
         }
     }
+
 }
